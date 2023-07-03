@@ -9,7 +9,7 @@
 #include <llapi/mc/ItemStack.hpp>
 #include <llapi/mc/ServerPlayer.hpp>
 
-std::map<INT64, int> data{};
+std::map<long long, int> data{};
 
 TInstanceHook(void, "?startUsingItem@Player@@QEAAXAEBVItemStack@@H@Z", Player, ItemStack const& a1, int a2) {
     data[getUniqueID()] = getSelectedItemSlot();
@@ -21,8 +21,7 @@ TInstanceHook(void, "?stopUsingItem@Player@@QEAAXXZ", Player) {
     original(this);
 }
 
-TInstanceHook(void, "?releaseUsingItem@GameMode@@UEAAXXZ", GameMode) {
-    ServerPlayer* player = getPlayer();
-    player->setSelectedSlot(data[player->getUniqueID()]);
+TInstanceHook(void, "?releaseUsingItem@Player@@QEAAXXZ", Player) {
+    setSelectedSlot(data[getUniqueID()]);
     original(this);
 }
