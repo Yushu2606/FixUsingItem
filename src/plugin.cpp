@@ -5,9 +5,7 @@
 
 #include <llapi/HookAPI.h>
 #include <llapi/mc/Player.hpp>
-#include <llapi/mc/GameMode.hpp>
 #include <llapi/mc/ItemStack.hpp>
-#include <llapi/mc/ServerPlayer.hpp>
 
 std::map<long long, int> data{};
 
@@ -22,6 +20,9 @@ TInstanceHook(void, "?stopUsingItem@Player@@QEAAXXZ", Player) {
 }
 
 TInstanceHook(void, "?releaseUsingItem@Player@@QEAAXXZ", Player) {
-    setSelectedSlot(data[getUniqueID()]);
+    if (data[getUniqueID()] == getSelectedItemSlot()) {
+        original(this);
+    }
+    stopUsingItem();
     original(this);
 }
