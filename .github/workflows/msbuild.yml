@@ -41,7 +41,7 @@ jobs:
       working-directory: ${{ env.GITHUB_WORKSPACE }}
       run: |
         cd SDK/tools
-        ./LibraryBuilder.exe -o ../lib server
+        ./PeEditor.exe -l --pdb ./Server/bedrock_server.pdb -o ../lib
       shell: bash
 
     - name: Add MSBuild to PATH
