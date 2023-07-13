@@ -10,17 +10,17 @@
 std::map<long long, int> data{};
 
 TInstanceHook(void, "?startUsingItem@Player@@QEAAXAEBVItemStack@@H@Z", Player, ItemStack const& a1, int a2) {
-    data[getUniqueID()] = getSelectedItemSlot();
+    data[getOrCreateUniqueID()] = getSelectedItemSlot();
     original(this, a1, a2);
 }
 
 TInstanceHook(void, "?stopUsingItem@Player@@QEAAXXZ", Player) {
-    data.erase(getUniqueID());
+    data.erase(getOrCreateUniqueID());
     original(this);
 }
 
 TInstanceHook(void, "?releaseUsingItem@Player@@QEAAXXZ", Player) {
-    if (data[getUniqueID()] == getSelectedItemSlot()) {
+    if (data[getOrCreateUniqueID()] == getSelectedItemSlot()) {
         original(this);
         return;
     }
