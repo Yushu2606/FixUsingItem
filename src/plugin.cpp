@@ -20,10 +20,8 @@ TInstanceHook(void, "?stopUsingItem@Player@@QEAAXXZ", Player) {
 }
 
 TInstanceHook(void, "?releaseUsingItem@Player@@QEAAXXZ", Player) {
-    if (data[getOrCreateUniqueID()] == getSelectedItemSlot()) {
-        original(this);
-        return;
+    if (data[getOrCreateUniqueID()] != getSelectedItemSlot()) {
+        stopUsingItem();
     }
-    stopUsingItem();
     original(this);
 }
